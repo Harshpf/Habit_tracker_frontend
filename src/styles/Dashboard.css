@@ -1,0 +1,39 @@
+/* Dashboard.css */
+.dashboard {
+    padding: 20px;
+  }
+  
+  .dashboard h1 {
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .habits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .habit-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .habit-item h3 {
+    margin: 0;
+    color: #007bff;
+  }
+  
+  .habit-item p {
+    margin: 10px 0;
+    color: #666;
+  }
+  
+  .habit-item button {
+    margin-right: 10px;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
