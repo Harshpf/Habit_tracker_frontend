@@ -1,28 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import '../styles/HabitForm.css'; // Add this line at the top
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import "../styles/HabitForm.css";
+
+const API_BASE_URL = "http://localhost:8000/api";
 
 const HabitForm = () => {
-  const [formData, setFormData] = useState({ name: '', description: '' });
+  const [formData, setFormData] = useState({ name: "", description: "" });
   const { id } = useParams();
   const navigate = useNavigate();
   const isEdit = !!id;
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      alert("Please login first to create or edit a habit.");
+      navigate("/login");
       return;
     }
 
     if (isEdit) {
       const fetchHabit = async () => {
         try {
-          const res = await axios.get(`/api/habits/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+          const res = await axios.get(`${API_BASE_URL}/habits/${id}`, {
+            withCredentials: true,
           });
           setFormData(res.data);
         } catch (error) {
@@ -35,42 +36,36 @@ const HabitForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:8000/api/habits/${id}`, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          withCredentials: true
+        await axios.put(`${API_BASE_URL}/habits/${id}`, formData, {
+          withCredentials: true,
         });
       } else {
-        await axios.post('http://localhost:8000/api/habits', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          withCredentials: true
+        await axios.post(`${API_BASE_URL}/habits`, formData, {
+          withCredentials: true,
         });
       }
       navigate('/');
     } catch (error) {
-      navigate('/login')
+      navigate("/login");
       console.error(error);
     }
   };
 
   const handleDashboardNavigation = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <div className="habit-form">
-      <h2>{isEdit ? 'Edit Habit' : 'Create New Habit'}</h2>
+      <h2>{isEdit ? "Edit Habit" : "Create New Habit"}</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

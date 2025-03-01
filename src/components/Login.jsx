@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Auth.css';
 
+const BASE_URL = 'http://localhost:8000/api';
+
 const Login = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
@@ -11,12 +13,10 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'http://localhost:8000/api/auth/login',
+        `${BASE_URL}/auth/login`,
         formData,
         { withCredentials: true } 
       );
-      // Note: if the token is sent as a cookie and marked as httpOnly, 
-      // it won't be accessible via res.data.token on the frontend.
       localStorage.setItem('token', res.data.token);
       setIsAuthenticated(true);
       navigate('/habits/new');

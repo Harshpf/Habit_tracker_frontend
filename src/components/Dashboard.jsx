@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Dashboard.css'; // Import styles
 
+const BASE_URL = 'http://localhost:8000/api';
+
 const Dashboard = () => {
   const [habits, setHabits] = useState([]);
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchHabits = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/habits/', {
+        const res = await axios.get(`${BASE_URL}/habits`, {
           withCredentials: true
         });
         setHabits(res.data);
@@ -24,7 +26,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/habits/${id}`, {
+      await axios.delete(`${BASE_URL}/habits/${id}`, {
         withCredentials: true
       });
       setHabits(habits.filter(habit => habit._id !== id));

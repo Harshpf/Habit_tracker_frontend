@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Auth.css';
 
+const BASE_URL = 'http://localhost:8000/api';
+
 const Signup = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -11,7 +13,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/register', formData, { withCredentials: true });
+      const response = await axios.post(`${BASE_URL}/auth/register`, formData, { withCredentials: true });
       console.log("token received", response.data.token);
       navigate('/login');
     } catch (error) {
